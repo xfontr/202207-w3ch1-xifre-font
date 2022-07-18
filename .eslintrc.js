@@ -10,6 +10,7 @@ module.exports = {
     },
     rules: {
         "import/extensions": ["error", "always"],
+        "no-new": "off",
 
         "lines-between-class-members": [
             "error",

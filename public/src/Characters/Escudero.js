@@ -1,4 +1,5 @@
 import Personaje from "./Personaje.js";
+import Luchador from "./Luchador.js";
 
 class Escudero extends Personaje {
     sirveA;
@@ -18,6 +19,7 @@ class Escudero extends Personaje {
         }
     }
 
+    // eslint-disable-next-line class-methods-use-this
     filtrarPelotismo(gradoPelotismo) {
         if (gradoPelotismo < 0) {
             return 0;
