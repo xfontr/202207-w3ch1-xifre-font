@@ -20,13 +20,13 @@ class Card extends Components {
         this.cardImage();
 
         this.cardTitle();
-        this.cardBody();
 
         this.characterInfoList();
         this.characterOverlay();
 
         this.generateButtons();
         this.buttonContainer();
+        this.cardBody();
 
         this.render();
     }
@@ -38,10 +38,16 @@ class Card extends Components {
 
         const imageSource = `../img/${this.character.nombre.toLowerCase()}.jpeg`;
         this.image.src = imageSource;
+
+        if (!this.character.vivo) {
+            this.image.style = "transform: rotateX(180deg)";
+        }
     }
 
     cardBody() {
-        return `<div class="card-body">${this.title.outerHTML}</div>`;
+        return `<div class="card-body">${
+            this.title.outerHTML
+        }${this.characterInfo()}${this.characterOverlay()}${this.buttonContainer()}</div>`;
     }
 
     cardTitle() {
@@ -59,7 +65,9 @@ class Card extends Components {
         this.list.className = "list-unstyled";
 
         const age = document.createElement("li");
-        age.appendChild(document.createTextNode("Edad: X años"));
+        age.appendChild(
+            document.createTextNode(`Edad: ${this.character.edad}`)
+        );
 
         const status = document.createElement("li");
         status.appendChild(document.createTextNode("Estado:"));
@@ -83,8 +91,24 @@ class Card extends Components {
         const list = document.createElement("ul");
         list.className = "list-unstyled";
 
-        const listElement = document.createElement("li");
-        list.appendChild(listElement);
+        let listElement;
+
+        Object.keys(this.character).forEach((data) => {
+            if (
+                data === "edad" ||
+                data === "nombre" ||
+                data === "familia" ||
+                data === "serie" ||
+                data === "vivo"
+            ) {
+            } else {
+                listElement = document.createElement("li");
+
+                list.appendChild(listElement);
+            }
+        });
+
+        this.overlayContainer.appendChild(list);
 
         return this.overlayContainer.outerHTML;
     }
@@ -95,18 +119,18 @@ class Card extends Components {
 
     generateButtons() {
         this.buttonSpeak = new Button(false, "habla", "button", () => {
-            console.log("");
+            this.character.comunicar();
         });
 
         this.buttonDie = new Button(false, "muere", "button", () => {
-            console.log("");
+            this.character.muere();
         });
     }
 
     render() {
         this.element.innerHTML = `<div class="card character__card">${
             this.image.outerHTML
-        }${this.cardBody()}${this.characterInfo()}${this.characterOverlay()}${this.buttonContainer()}</div>`;
+        }${this.cardBody()}</div>`;
     }
 }
 
