@@ -1,5 +1,6 @@
 import Components from "../Components.js";
 import personajes from "../Characters/personajes.js";
+import Card from "./Card.js";
 
 class CardList extends Components {
     listChild;
@@ -10,15 +11,13 @@ class CardList extends Components {
         this.render();
     }
 
-    listChildren() {
-        this.listChild = document.createElement("li");
-        this.listChild.className = "character col";
+    newCard() {
+        new Card(this.element);
     }
 
     render() {
         personajes.forEach(() => {
-            this.listChildren();
-            this.element.appendChild(this.listChild);
+            this.newCard();
         });
     }
 }
