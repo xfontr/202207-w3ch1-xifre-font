@@ -18,9 +18,8 @@ class CardList extends Components {
     }
 
     render() {
-        personajes.forEach((character, index) => {
+        personajes.forEach((character) => {
             this.character = character;
-            this.index = index;
             this.newCard();
         });
     }
