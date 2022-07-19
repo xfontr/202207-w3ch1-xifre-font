@@ -5,9 +5,7 @@ class Components {
         this.element = document.createElement(tag);
         this.element.className = className;
 
-        if (parent) {
-            parent.appendChild(this.element);
-        }
+        parent.appendChild(this.element);
     }
 }
 

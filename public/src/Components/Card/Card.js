@@ -1,6 +1,7 @@
 import Components from "../../Components.js";
 import Button from "./Button.js";
 import createList from "./characterData.js";
+import emojiSelector from "./emojiSelector.js";
 
 class Card extends Components {
     character;
@@ -17,6 +18,7 @@ class Card extends Components {
     dataList;
     overlayContainer;
 
+    buttonContainer;
     buttonSpeak;
     buttonDie;
 
@@ -36,8 +38,8 @@ class Card extends Components {
 
         this.createOverlay();
 
-        this.generateButtons();
-        this.buttonContainer();
+        this.createButtonContainer();
+        this.createButtons();
 
         this.render();
     }
@@ -112,18 +114,35 @@ class Card extends Components {
         });
     }
 
-    buttonContainer() {
-        return `<div class="character__action btn">${this.buttonSpeak.element.outerHTML}${this.buttonDie.element.outerHTML}</div>`;
+    createButtonContainer() {
+        this.buttonContainer = document.createElement("div");
+        this.buttonContainer.className = "character__action btn";
     }
 
-    generateButtons() {
-        this.buttonSpeak = new Button(false, "habla", "button", () => {
-            this.character.comunicar();
-        });
+    createButtons() {
+        this.buttonSpeak = new Button(
+            this.buttonContainer,
+            "habla",
+            "button",
+            () => {
+                this.character.comunicar();
+            }
+        );
 
-        this.buttonDie = new Button(false, "muere", "button", () => {
-            this.character.muere();
-        });
+        this.buttonDie = new Button(
+            this.buttonContainer,
+            "muere",
+            "button",
+            () => {
+                this.character.muere();
+            }
+        );
+    }
+
+    createEmoji() {
+        this.emoji = document.createElement("i");
+        this.emoji.className = "emoji";
+        this.emoji.textContent = emojiSelector(this.character);
     }
 
     renderCardBody() {
@@ -132,13 +151,18 @@ class Card extends Components {
         this.cardBody.appendChild(this.characterInfoContainer);
 
         this.overlayContainer.appendChild(this.dataList);
+
+        this.overlayContainer.appendChild(this.buttonContainer);
+
         this.cardBody.appendChild(this.overlayContainer);
     }
 
     render() {
         this.mainContainer.appendChild(this.image);
+
         this.renderCardBody();
         this.mainContainer.appendChild(this.cardBody);
+
         this.element.appendChild(this.mainContainer);
     }
 }
