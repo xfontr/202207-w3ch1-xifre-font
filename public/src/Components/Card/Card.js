@@ -107,7 +107,7 @@ class Card extends Components {
 
     createButtonContainer() {
         this.buttonContainer = document.createElement("div");
-        this.buttonContainer.className = "character__action btn";
+        this.buttonContainer.className = "character__actions";
     }
 
     createButtons() {
