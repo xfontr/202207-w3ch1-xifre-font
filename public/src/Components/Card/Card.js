@@ -1,6 +1,8 @@
 import Components from "../../Components.js";
-import Button from "./Button.js";
+import Button from "../Button.js";
 import createList from "./characterData.js";
+import comunicateAction from "./comunicateAction.js";
+import dieAction from "./dieAction.js";
 import emojiSelector from "./emojiSelector.js";
 
 class Card extends Components {
@@ -94,13 +96,15 @@ class Card extends Components {
         const status = document.createElement("li");
         status.appendChild(document.createTextNode("Estado:"));
 
-        const iconDown = document.createElement("i");
-        iconDown.className = "fas fa-thumbs-down";
-        status.appendChild(iconDown);
-
-        const iconUp = document.createElement("i");
-        iconUp.className = "fas fa-thumbs-up";
-        status.appendChild(iconUp);
+        if (this.character.vivo) {
+            const iconUp = document.createElement("i");
+            iconUp.className = "fas fa-thumbs-up";
+            status.appendChild(iconUp);
+        } else {
+            const iconDown = document.createElement("i");
+            iconDown.className = "fas fa-thumbs-down";
+            status.appendChild(iconDown);
+        }
 
         this.infoList.appendChild(age);
         this.infoList.appendChild(status);
@@ -129,7 +133,7 @@ class Card extends Components {
             "habla",
             "button",
             () => {
-                this.character.comunicar();
+                comunicateAction(this.character);
             }
         );
 
@@ -138,14 +142,7 @@ class Card extends Components {
             "muere",
             "button",
             () => {
-                this.character.muere();
-                this.element.remove();
-                new Card(
-                    document.querySelector(
-                        ".characters-list.row.list-unstyled"
-                    ),
-                    this.character
-                );
+                dieAction(this.character, this.element);
             }
         );
     }
