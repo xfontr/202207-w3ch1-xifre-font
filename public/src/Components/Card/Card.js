@@ -2,8 +2,10 @@ import Components from "../../Components.js";
 import Button from "../Button.js";
 import createList from "./characterData.js";
 import comunicateAction from "./comunicateAction.js";
+// eslint-disable-next-line import/no-cycle
 import dieAction from "./dieAction.js";
 import emojiSelector from "./emojiSelector.js";
+import thumbs from "./thumbs.js";
 
 class Card extends Components {
     character;
@@ -88,26 +90,7 @@ class Card extends Components {
         this.infoList = document.createElement("ul");
         this.infoList.className = "list-unstyled";
 
-        const age = document.createElement("li");
-        age.appendChild(
-            document.createTextNode(`Edad: ${this.character.edad}`)
-        );
-
-        const status = document.createElement("li");
-        status.appendChild(document.createTextNode("Estado:"));
-
-        if (this.character.vivo) {
-            const iconUp = document.createElement("i");
-            iconUp.className = "fas fa-thumbs-up";
-            status.appendChild(iconUp);
-        } else {
-            const iconDown = document.createElement("i");
-            iconDown.className = "fas fa-thumbs-down";
-            status.appendChild(iconDown);
-        }
-
-        this.infoList.appendChild(age);
-        this.infoList.appendChild(status);
+        this.infoList = thumbs(this.infoList, this.character);
     }
 
     createOverlay() {
@@ -159,7 +142,6 @@ class Card extends Components {
         this.cardBody.appendChild(this.characterInfoContainer);
 
         this.overlayContainer.appendChild(this.dataList);
-
         this.overlayContainer.appendChild(this.buttonContainer);
 
         this.cardBody.appendChild(this.overlayContainer);
@@ -169,8 +151,10 @@ class Card extends Components {
         this.mainContainer.appendChild(this.image);
 
         this.renderCardBody();
+
         this.mainContainer.appendChild(this.cardBody);
         this.mainContainer.appendChild(this.emoji);
+
         this.element.appendChild(this.mainContainer);
     }
 }
