@@ -12,9 +12,9 @@ class Card extends Components {
     title;
 
     characterInfoContainer;
-    list;
-
     infoList;
+
+    dataList;
     overlayContainer;
 
     buttonSpeak;
@@ -32,8 +32,9 @@ class Card extends Components {
         this.createCardTitle();
 
         this.createInfoContainer();
-        this.characterInfoList();
-        this.characterOverlay();
+        this.createInfoList();
+
+        this.createOverlay();
 
         this.generateButtons();
         this.buttonContainer();
@@ -75,9 +76,9 @@ class Card extends Components {
         this.characterInfoContainer.className = "character__info";
     }
 
-    characterInfoList() {
-        this.list = document.createElement("ul");
-        this.list.className = "list-unstyled";
+    createInfoList() {
+        this.infoList = document.createElement("ul");
+        this.infoList.className = "list-unstyled";
 
         const age = document.createElement("li");
         age.appendChild(
@@ -95,19 +96,19 @@ class Card extends Components {
         iconUp.className = "fas fa-thumbs-up";
         status.appendChild(iconUp);
 
-        this.list.appendChild(age);
-        this.list.appendChild(status);
+        this.infoList.appendChild(age);
+        this.infoList.appendChild(status);
     }
 
-    characterOverlay() {
+    createOverlay() {
         this.overlayContainer = document.createElement("div");
         this.overlayContainer.className = "character__overlay";
 
-        this.infoList = document.createElement("ul");
-        this.infoList.className = "list-unstyled";
+        this.dataList = document.createElement("ul");
+        this.dataList.className = "list-unstyled";
 
         createList(this.character).forEach((listElement) => {
-            this.infoList.appendChild(listElement);
+            this.dataList.appendChild(listElement);
         });
     }
 
@@ -127,16 +128,17 @@ class Card extends Components {
 
     renderCardBody() {
         this.cardBody.appendChild(this.title);
-        this.characterInfoContainer.appendChild(this.list);
+        this.characterInfoContainer.appendChild(this.infoList);
         this.cardBody.appendChild(this.characterInfoContainer);
-        this.mainContainer.appendChild(this.cardBody);
+
+        this.overlayContainer.appendChild(this.dataList);
+        this.cardBody.appendChild(this.overlayContainer);
     }
 
     render() {
         this.mainContainer.appendChild(this.image);
         this.renderCardBody();
-        this.overlayContainer.appendChild(this.infoList);
-        this.mainContainer.appendChild(this.overlayContainer);
+        this.mainContainer.appendChild(this.cardBody);
         this.element.appendChild(this.mainContainer);
     }
 }
