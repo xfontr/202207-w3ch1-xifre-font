@@ -22,6 +22,8 @@ class Card extends Components {
     buttonSpeak;
     buttonDie;
 
+    emoji;
+
     constructor(parent, character) {
         super(parent, "li", "character col");
 
@@ -40,6 +42,8 @@ class Card extends Components {
 
         this.createButtonContainer();
         this.createButtons();
+
+        this.createEmoji();
 
         this.render();
     }
@@ -162,7 +166,7 @@ class Card extends Components {
 
         this.renderCardBody();
         this.mainContainer.appendChild(this.cardBody);
-
+        this.mainContainer.appendChild(this.emoji);
         this.element.appendChild(this.mainContainer);
     }
 }
