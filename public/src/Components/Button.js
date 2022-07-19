@@ -1,4 +1,4 @@
-import Components from "../../Components.js";
+import Components from "../Components.js";
 
 class Button extends Components {
     text;
