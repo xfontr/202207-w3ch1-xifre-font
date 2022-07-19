@@ -1,12 +1,20 @@
 import Components from "../../Components.js";
 import Button from "./Button.js";
+import createList from "./characterData.js";
 
 class Card extends Components {
     character;
-    container;
+    mainContainer;
+
     image;
+
+    cardBody;
     title;
+
+    characterInfoContainer;
     list;
+
+    infoList;
     overlayContainer;
 
     buttonSpeak;
@@ -17,21 +25,28 @@ class Card extends Components {
 
         this.character = character;
 
-        this.cardImage();
+        this.createMainContainer();
+        this.createImage();
 
-        this.cardTitle();
+        this.createCardBody();
+        this.createCardTitle();
 
+        this.createInfoContainer();
         this.characterInfoList();
         this.characterOverlay();
 
         this.generateButtons();
         this.buttonContainer();
-        this.cardBody();
 
         this.render();
     }
 
-    cardImage() {
+    createMainContainer() {
+        this.mainContainer = document.createElement("div");
+        this.mainContainer.className = "card character__card";
+    }
+
+    createImage() {
         this.image = document.createElement("img");
         this.image.className = "character__picture card-img-top";
         this.image.alt = `${this.character.nombre} ${this.character.familia}`;
@@ -44,20 +59,20 @@ class Card extends Components {
         }
     }
 
-    cardBody() {
-        return `<div class="card-body">${
-            this.title.outerHTML
-        }${this.characterInfo()}${this.characterOverlay()}${this.buttonContainer()}</div>`;
+    createCardBody() {
+        this.cardBody = document.createElement("div");
+        this.cardBody.className = "card-body";
     }
 
-    cardTitle() {
+    createCardTitle() {
         this.title = document.createElement("h2");
         this.title.className = "character__name card-title h4";
         this.title.textContent = `${this.character.nombre} ${this.character.familia}`;
     }
 
-    characterInfo() {
-        return `<div class="character__info">${this.list.outerHTML}</div>`;
+    createInfoContainer() {
+        this.characterInfoContainer = document.createElement("div");
+        this.characterInfoContainer.className = "character__info";
     }
 
     characterInfoList() {
@@ -88,29 +103,12 @@ class Card extends Components {
         this.overlayContainer = document.createElement("div");
         this.overlayContainer.className = "character__overlay";
 
-        const list = document.createElement("ul");
-        list.className = "list-unstyled";
+        this.infoList = document.createElement("ul");
+        this.infoList.className = "list-unstyled";
 
-        let listElement;
-
-        Object.keys(this.character).forEach((data) => {
-            if (
-                data === "edad" ||
-                data === "nombre" ||
-                data === "familia" ||
-                data === "serie" ||
-                data === "vivo"
-            ) {
-            } else {
-                listElement = document.createElement("li");
-
-                list.appendChild(listElement);
-            }
+        createList(this.character).forEach((listElement) => {
+            this.infoList.appendChild(listElement);
         });
-
-        this.overlayContainer.appendChild(list);
-
-        return this.overlayContainer.outerHTML;
     }
 
     buttonContainer() {
@@ -127,10 +125,19 @@ class Card extends Components {
         });
     }
 
+    renderCardBody() {
+        this.cardBody.appendChild(this.title);
+        this.characterInfoContainer.appendChild(this.list);
+        this.cardBody.appendChild(this.characterInfoContainer);
+        this.mainContainer.appendChild(this.cardBody);
+    }
+
     render() {
-        this.element.innerHTML = `<div class="card character__card">${
-            this.image.outerHTML
-        }${this.cardBody()}</div>`;
+        this.mainContainer.appendChild(this.image);
+        this.renderCardBody();
+        this.overlayContainer.appendChild(this.infoList);
+        this.mainContainer.appendChild(this.overlayContainer);
+        this.element.appendChild(this.mainContainer);
     }
 }
 
