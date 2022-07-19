@@ -139,6 +139,13 @@ class Card extends Components {
             "button",
             () => {
                 this.character.muere();
+                this.element.remove();
+                new Card(
+                    document.querySelector(
+                        ".characters-list.row.list-unstyled"
+                    ),
+                    this.character
+                );
             }
         );
     }
